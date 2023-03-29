@@ -2,7 +2,7 @@
     <div id="app">
       <!-- Сейчас мы будем здесь писать свой код-->
       <v-app>
-        <ProfilHeader v-if="this.$route.fullPath === '/prof'"></ProfilHeader>
+        <ProfilHeader v-if="this.$route.fullPath === '/profile'"></ProfilHeader>
         <Header v-else></Header>
         <v-main class="orange lighten-5">
           <router-view></router-view>

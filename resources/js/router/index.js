@@ -5,13 +5,6 @@ import MasterView from '../web/MasterView.vue'
 import SovetView from '../web/SovetView.vue'
 import ProfilView from '../web/ProfilView.vue'
 import FormMasterView from "../web/FormMasterView.vue"
-// export default createRouter({
-//     history: createWebHistory(),
-//     routes: [
-//         { path: '/', name: 'home', component: HomeComponent},
-//         { path: '/contact', name: 'contact', component: ContactComponent, alias: "/", },
-//     ]
-// })
 
 const routes = [
   {

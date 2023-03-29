@@ -58,19 +58,20 @@
                                                             <v-text-field
                                                                 label="E-mail"
                                                                 prepend-icon="mdi-at"
+                                                                v-model="this.user.email"
                                                             ></v-text-field>
                                                             <v-text-field
                                                                 label="Password"
                                                                 prepend-icon="mdi-lock"
+                                                                v-model="this.user.password"
                                                             ></v-text-field>
                                                         </form>
                                                     </div>
                                                     <div class="uk-width-1-1 px-8 d-flex justify-end">
                                                         <div class="btn_first" color="primary" v-bind="props" >
-                                                            <span class="noselect"><router-link @click="dialog = false" to="/prof">Войти</router-link></span>
+                                                            <button @click.prevent="this.auth" type="submit" class="noselect">Зарегистрироваться</button>
                                                         </div>
                                                     </div>
-                                                    
                                                 </div> 
                                                 </div>         
                                             </div>
@@ -91,24 +92,28 @@
                                                             <v-text-field
                                                                 label="E-mail"
                                                                 prepend-icon="mdi-at"
+                                                                v-model="this.user.email"
                                                             ></v-text-field>
                                                             <v-text-field
                                                                 label="Имя"
                                                                 prepend-icon="mdi-at"
+                                                                v-model="this.user.name"
                                                             ></v-text-field>
                                                             <v-text-field
                                                                 label="Пароль"
                                                                 prepend-icon="mdi-lock"
+                                                                v-model="this.user.password"
                                                             ></v-text-field>
                                                             <v-text-field
                                                                 label="Повторите пароль"
                                                                 prepend-icon="mdi-lock"
+                                                                v-model="this.user.password_confirmation"
                                                             ></v-text-field>
                                                         </form>
                                                     </div>
                                                     <div class="uk-width-1-1 px-8 d-flex justify-end">
                                                         <div class="btn_first" color="primary" v-bind="props">
-                                                            <span class="noselect"><router-link @click="dialog = false" to="/prof">Войти</router-link></span>
+                                                            <button @click.prevent="this.register" type="submit" class="noselect">Зарегистрироваться</button>
                                                         </div>
                                                     </div>
                                                     
@@ -328,14 +333,73 @@
     </div>
 </template>
 <script>
+import axios from 'axios';
+
 export default {
     data() {
         return {
             dialog: false,
             tab: 'option-1',
             show: false,
+            message_error: '',
+            user: {
+                name: '',
+                email: '',
+                password: '',
+                password_confirmation: ''
+            }
         }
     },
+    methods: {
+        // Метод регистрации
+        register() {
+            if (this.user.email && this.user.name && this.user.password && this.user.password_confirmation) {
+                axios.post('/api/register', JSON.stringify({
+                        'name': this.user.name,
+                        'email': this.user.email,
+                        'password': this.user.password,
+                        'password_confirmation': this.user.password_confirmation,
+                }), {
+                    headers: {
+                        "Content-type": "application/json",
+                        "Accept": "application/json"
+                    }
+                }).then(response => {
+                    localStorage.setItem('token', response.data.token)
+                    localStorage.setItem('role', response.data.user.role)
+                    this.$router.push('/')
+                    location.reload()
+                    this.show = false
+                }).catch(response => {
+                    console.log(response.response.data.message)
+                })
+            }
+            else this.message_error = 'Заполните все поля!'
+        },
+        auth(){
+            if(this.user.email && this.user.password){
+                axios.post('/api/login', JSON.stringify({
+                        'email': this.user.email,
+                        'password': this.user.password,
+                }), {
+                    headers: {
+                        "Content-type": "application/json",
+                        "Accept": "application/json"
+                    }
+                }).then(response => {
+                    localStorage.setItem('token', response.data.token)
+                    localStorage.setItem('role', response.data.user.role)
+                    localStorage.setItem('name', response.data.user.name)
+                    this.$router.push('/')
+                    location.reload()
+                    this.dialog = false
+                }).catch(response => {
+                    console.log(response.response.data.message)
+                })
+            }
+            else this.message_error = 'Заполните все поля!'
+        }
+    }
 }
 </script>
 
