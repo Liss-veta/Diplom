@@ -5,6 +5,7 @@ import MasterView from '../web/MasterView.vue'
 import SovetView from '../web/SovetView.vue'
 import ProfilView from '../web/ProfilView.vue'
 import FormMasterView from "../web/FormMasterView.vue"
+import AdminView from "../web/AdminView.vue"
 
 const routes = [
   {
@@ -29,7 +30,11 @@ const routes = [
     component:  FormMasterView,
   },
   {
-    path: '/profile',
+    path: '/admin',
+    component:  AdminView,
+  },
+  {
+    path: '/profile/:id',
     component:  ProfilView,
   },
   

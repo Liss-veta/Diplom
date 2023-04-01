@@ -21,6 +21,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/sovets', [SovetController::class, 'index']);
 Route::get('/masters', [MasterController::class, 'index']);
+Route::get('/masters/{id}', [MasterController::class, 'show']);
 
 
 Route::group(['middleware' => 'auth:sanctum'], function(){

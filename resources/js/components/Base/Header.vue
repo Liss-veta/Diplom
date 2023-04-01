@@ -26,6 +26,10 @@
         <v-list>
           <v-list-item><button>Мои заявки</button></v-list-item>
           <v-list-item v-show="this.role == 'master'"><button>Страница мастера</button></v-list-item>
+          <v-list-item v-show="this.role == 'master'"><button>Добавить запись</button></v-list-item>
+          <v-list-item v-show="this.role == 'master'"><button>Добавить совет</button></v-list-item>
+          <v-list-item v-show="this.role == 'master'"><button>Редактировать профиль</button></v-list-item>
+          <v-list-item v-show="this.role == 'admin'"><button>Панель управления</button></v-list-item>
           <v-list-item v-show="this.role == 'user'"><Application/></v-list-item>
           <v-list-item><button v-on:click="logout">Выйти</button></v-list-item>
         </v-list>
@@ -63,7 +67,8 @@ export default {
     expand: false,
     drawerVisible: false,
     token: localStorage.getItem('token'),
-    role: localStorage.getItem('role')
+    role: localStorage.getItem('role'),
+
   }),
   watch: {
     group() {

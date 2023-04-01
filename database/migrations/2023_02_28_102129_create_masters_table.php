@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('staj');
             $table->integer('clients_count');
             $table->integer('min_cena');
-            $table->string('description');
+            $table->string('description', 400);
             $table->string('avatar');
             $table->string('admin_status');
             $table->string('privilege');

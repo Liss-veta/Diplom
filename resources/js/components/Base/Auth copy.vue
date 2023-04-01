@@ -5,7 +5,7 @@
                     <v-btn icon="mdi-exit-to-app" v-bind="props" >
                     </v-btn>
                 </template>  
-                <v-card class="di di_w ml-0 d-flex justify-space-between" color="transparent" uk-grid>
+                <v-card class="di di_w ml-0 uk-width-1-1 d-flex justify-space-between" color="transparent" uk-grid>
                     <button class="uk-modal-close-default" @click="dialog = false" aria-label="Close" uk-close></button>
                     <div class="di uk-width-1-1 uk-height-1-1 mt-0 pl-0">
                         <v-card class="d-flex uk-width-1-1" style="height: 100%">
@@ -42,12 +42,12 @@
                                 </v-tooltip>
                             </v-tabs>
                             <v-window class="w-100 h-100" v-model="tab">
-                                <v-window-item value="option-1" style="height: 100%">
+                                <v-window-item value="option-1" class="uk-width-4-5" style="height: 100%">
                                     <v-card class="uk-height-1-1" flat>
                                         <div class="uk-height-1-1 pink-lighten-3 ">
                                                 <div class="uk-height-1-1 uk-width-1-1 d-flex justify-center">
                                                     <div class="uk-width-2-5 h-100 d-none d-sm-block d-lg-block d-md-block d-xl-block">
-                                                        <img src="assets/image auth.png" class="h-100 img-auth"/>
+                                                        <img :src="'../assets/image auth.png'" class="h-100 img-auth"/>
                                                     </div>
                                                 <div class="d-flex flex-column align-end justify-center uk-width-4-5@m uk-width-1-1 uk-width-4-5@s uk-width-4-5@l uk-width-4-5@xl py-12 border-x">
                                                     
@@ -68,8 +68,8 @@
                                                         </form>
                                                     </div>
                                                     <div class="uk-width-1-1 px-8 d-flex justify-end">
-                                                        <div class="btn_first" color="primary" v-bind="props" >
-                                                            <button @click.prevent="this.auth" type="submit" class="noselect">Зарегистрироваться</button>
+                                                        <div class="btn_first" color="primary">
+                                                            <button @click.prevent="this.auth" type="submit" class="noselect">Войти</button>
                                                         </div>
                                                     </div>
                                                 </div> 
@@ -82,7 +82,7 @@
                                         <div class="h-100">
                                                 <div class="uk-width-1-1 h-100 d-flex justify-center">
                                                     <div class="uk-width-2-5 d-none d-sm-block d-lg-block d-md-block d-xl-block">
-                                                        <img src="assets/image auth.png" class="h-100 img-auth"/>
+                                                        <img :src="'../assets/image auth.png'" class="h-100 img-auth"/>
                                                     </div>
                                                 <div class="d-flex flex-column align-end justify-center uk-width-4-5@m uk-width-1-1 uk-width-4-5@s uk-width-4-5@l uk-width-4-5@xl py-12 border-x">
                                                     <div class="uk-width-1-1">
@@ -112,8 +112,8 @@
                                                         </form>
                                                     </div>
                                                     <div class="uk-width-1-1 px-8 d-flex justify-end">
-                                                        <div class="btn_first" color="primary" v-bind="props">
-                                                            <button @click.prevent="this.register" type="submit" class="noselect">Зарегистрироваться</button>
+                                                        <div class="btn_first" color="primary">
+                                                            <button @click.prevent="this.register" type="submit" class="noselect">Отправить</button>
                                                         </div>
                                                     </div>
                                                     
@@ -127,7 +127,7 @@
                                         <div class="uk-height-1-1 pink-lighten-3 ">
                                                 <div class=" uk-height-1-1 uk-width-1-1 d-flex justify-center">
                                                     <div class="uk-width-2-5 d-none d-sm-block d-lg-block d-md-block d-xl-block h-100">
-                                                        <img src="assets/image auth.png" class="h-100 img-auth"/>
+                                                        <img :src="'../assets/image auth.png'" class="h-100 img-auth"/>
                                                     </div>
                                                     <div class="d-flex align-center justify-center uk-width-4-5 h-100 py-12 border-x text-center">
                                                         <h3 class="text-h6 text-sm-h4 text-md-h4 text-lg-h4 text-xl-h4 w-75" color="black">Для того чтобы подать заявку на сотрудничество, зарегистрируйтесь на сайте</h3>                                                  
@@ -390,7 +390,17 @@ export default {
                     localStorage.setItem('token', response.data.token)
                     localStorage.setItem('role', response.data.user.role)
                     localStorage.setItem('name', response.data.user.name)
-                    this.$router.push('/')
+                    localStorage.setItem('id', response.data.user.id)
+
+                    if(localStorage.getItem('role') === 'admin'){
+                        return this.$router.push("/admin")
+                    }
+                    if(localStorage.getItem('role') === 'master'){
+                        return this.$router.push("/profile/" + localStorage.getItem('id'))
+                    }
+                    else{
+                        return this.$router.push("/")
+                    }
                     location.reload()
                     this.dialog = false
                 }).catch(response => {

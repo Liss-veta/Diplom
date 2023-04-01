@@ -2,10 +2,44 @@
     <div id="app">
       <!-- Сейчас мы будем здесь писать свой код-->
       <v-app>
-        <ProfilHeader v-if="this.$route.fullPath === '/profile'"></ProfilHeader>
+        <ProfilHeader v-if="this.$route.fullPath === '/profile/' + this.$route.params.id"></ProfilHeader>
+        <div v-if="this.$route.fullPath === '/admin'">
+          <v-navigation-drawer class="bg-pink-lighten-3" theme="dark" permanent>
+                <div class="w-100 text-center pt-4">
+                        <v-avatar color="grey" size="150">
+                            <v-img cover src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
+                        </v-avatar>
+                        <v-list-item class="text-white" title="Администратор" :subtitle='"Добро пожаловать, " + this.name'></v-list-item>
+                </div>
+                <hr>
+                <v-list color="transparent">
+                    <v-list-item @click.prevent="this.isThere = 1" prepend-icon="mdi-view-dashboard" title="Главная"></v-list-item>
+                    <v-list-item @click.prevent="this.isThere = 2" prepend-icon="mdi-account-box" title="Мастера"></v-list-item>
+                    <v-list-item @click.prevent="this.isThere = 3" prepend-icon="mdi-gavel" title="Советы"></v-list-item>
+                    <v-list-item @click.prevent="this.isThere = 4" prepend-icon="mdi-gavel" title="Заявки"></v-list-item>
+                    <v-list-item @click.prevent="this.isThere = 5" prepend-icon="mdi-gavel" title="Сотрудничество"></v-list-item>
+                    <v-list-item @click.prevent="this.isThere = 6" prepend-icon="mdi-gavel" title="Предложения"></v-list-item>
+                </v-list>
+
+                <template v-slot:append>
+                    <div class="pa-2">
+                        <v-btn block>
+                            Выйти
+                        </v-btn>
+                    </div>
+                </template>
+            </v-navigation-drawer>
+        </div>
         <Header v-else></Header>
         <v-main class="orange lighten-5">
+          <v-toolbar v-if="this.$route.fullPath === '/admin'" class="bg-light-green-lighten-1" elevation="4" dense title="Application"></v-toolbar>
           <router-view></router-view>
+          <HomeEdit v-if="this.isThere == 1"/>
+          <MastersEdit v-if="this.isThere == 2"/>
+          <SovetsEdit v-if="this.isThere == 3"/>
+          <ApplicationsEdit v-if="this.isThere == 4"/>
+          <CooperationEdit v-if="this.isThere == 5"/>
+          <OfferEdit v-if="this.isThere == 6"/>
         </v-main>
       </v-app>
     </div>
@@ -13,14 +47,28 @@
   <script>
   import ProfilHeader from "./components/Master/ProfilHeader.vue"
   import Header from "./components/Base/Header.vue"
+  import HomeEdit from "./components/Admin/HomeEdit.vue";
+  import MastersEdit from "./components/Admin/MastersEdit.vue";
+  import SovetsEdit from "./components/Admin/SovetsEdit.vue";
+  import ApplicationsEdit from "./components/Admin/ApplicationsEdit.vue";
+  import CooperationEdit from "./components/Admin/CooperationEdit.vue";
+  import OfferEdit from "./components/Admin/OfferEdit.vue";
   export default {
     name: 'App',
     data: () => ({
         expand: false,
+        isThere: 1,
+        name: localStorage.getItem('name')
       }),
       components: {
         ProfilHeader,
-        Header
+        Header,
+        HomeEdit,
+        MastersEdit,
+        SovetsEdit,
+        ApplicationsEdit,
+        CooperationEdit,
+        OfferEdit
       },
   }
   </script>

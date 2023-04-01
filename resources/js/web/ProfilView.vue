@@ -2,19 +2,18 @@
     <div>
         <div class="mt-n16 d-flex flex-column align-items-center">
             <div class="d-flex justify-center">
-                <p class="uk-width-4-5 text-center">
-                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam
-                    rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt
-                    explicabo.
-                    <br><br>
-                    Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit,sed quia consequuntur magni
-                    dolores eos qui ratione voluptatem sequi nesciunt.
+                <p class="uk-width-4-5 text-center tht">
+                    {{ this.masters.description }}
                 </p>
             </div>
             <div class="uk-width-4-5">
                 <v-btn color="light-green-lighten-1" prepend-icon="mdi-cloud-upload"
                     @click="load(2)">
-                    Upload
+                    Добавить запись
+                </v-btn>
+                <v-btn color="light-green-lighten-1" prepend-icon="mdi-account-edit"
+                    @click="load(2)">
+                    Редактировать профиль
                 </v-btn>
             </div>
         </div>
@@ -39,8 +38,35 @@ export default {
         Gallery,
         LentaSlider,
         Footer
+    },
+    data() {
+        return {
+            id: this.$route.params.id,
+            masters: [],
+        }
+    },
+    mounted() {
+        this.getInfo()
+    },
+    methods:{
+        getInfo(){
+            axios.get(`/api/masters/${this.id}`, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-type': 'application/json',
+                    'X-Request-with':'XMLHttpRequest'
+                }
+            }).then(response => {
+                this.masters = response.data.content[0]
+                console.log(response.data);
+            }).catch(response => { console.log(response.data) })
+        }
     }
 }
 </script>
 
-<style></style>
+<style>
+.tht {
+    word-break: break-word;
+}
+</style>
