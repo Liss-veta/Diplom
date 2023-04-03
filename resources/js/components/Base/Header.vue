@@ -18,22 +18,7 @@
       <v-spacer></v-spacer>
       <v-app-bar-nav-icon large class="ma-2" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-spacer></v-spacer>
-      <Auth v-if="!this.token"></Auth>
-      <v-menu v-else>
-        <template v-slot:activator="{ props }">
-          <v-btn icon="mdi-dots-vertical" v-bind="props"></v-btn>
-        </template>
-        <v-list>
-          <v-list-item><button>Мои заявки</button></v-list-item>
-          <v-list-item v-show="this.role == 'master'"><button>Страница мастера</button></v-list-item>
-          <v-list-item v-show="this.role == 'master'"><button>Добавить запись</button></v-list-item>
-          <v-list-item v-show="this.role == 'master'"><button>Добавить совет</button></v-list-item>
-          <v-list-item v-show="this.role == 'master'"><button>Редактировать профиль</button></v-list-item>
-          <v-list-item v-show="this.role == 'admin'"><button>Панель управления</button></v-list-item>
-          <v-list-item v-show="this.role == 'user'"><Application/></v-list-item>
-          <v-list-item><button v-on:click="logout">Выйти</button></v-list-item>
-        </v-list>
-      </v-menu>
+      <Menu_auth></Menu_auth>
       <!-- modal menu top -->
 
       <v-navigation-drawer v-model="drawer" location="bottom" temporary class="w-75 h-100 d-flex justify-center"
@@ -55,11 +40,13 @@
 import axios from 'axios'
 import Auth from './Auth copy.vue'
 import Application from '../user/Application.vue'
+import Menu_auth from './Menu_auth.vue'
 export default {
   name: 'v-Header',
   components: {
     Auth,
-    Application
+    Application,
+    Menu_auth
   },
   data: () => ({
     drawer: false,
@@ -68,24 +55,128 @@ export default {
     drawerVisible: false,
     token: localStorage.getItem('token'),
     role: localStorage.getItem('role'),
-
+    masters: [],
+    my_id_user: localStorage.getItem('id'),
+    file: '',
+    file_ava: '',
+    text: '',
+    master: {
+      name: '',
+      surname: '',
+      age: '',
+      city: '',
+      staj: '',
+      clients_count: '',
+      min_cena: '',
+      description: '',
+      avatar: '',
+    },
   }),
   watch: {
     group() {
       this.drawer = false
     },
   },
-  methods: {
-    logout(){
-      axios.get('api/logout', {
-        headers: {"Authorization":"Bearer "+this.token}
-      }).then(response => {
-        location.reload()
-        localStorage.clear()
-      }).catch(response => {console.log(response)})
-      
-    }
-  }
+  // mounted() {
+  //   this.showMaster()
+  // },
+  // methods: {
+  //   logout() {
+  //     axios.get('api/logout', {
+  //       headers: { "Authorization": "Bearer " + this.token }
+  //     }).then(response => {
+  //       location.reload()
+  //       localStorage.clear()
+  //     }).catch(response => { console.log(response) })
+  //   },
+  //   showMaster() {
+  //     axios.get(`/api/masters/${this.id}`, {
+  //       headers: {
+  //         'Accept': "application/json",
+  //         "Content-type": "application/json"
+  //       }
+  //     }).then(response => {
+  //       this.masters = response.data.content[0]
+  //       this.master.name = response.data.content[0].name
+  //       this.master.surname = response.data.content[0].surname
+  //       this.master.age = response.data.content[0].age
+  //       this.master.city = response.data.content[0].city
+  //       this.master.staj = response.data.content[0].staj
+  //       this.master.clients_count = response.data.content[0].clients_count
+  //       this.master.min_cena = response.data.content[0].min_cena
+  //       this.master.description = response.data.content[0].description
+  //       console.log(this.master.name);
+  //     }).catch(response => { console.log(response.data) })
+  //   },
+  //   update(id) {
+  //     let formData = new FormData();
+  //     formData.append("name", this.master.name);
+  //     formData.append("surname", this.master.surname);
+  //     formData.append("age", this.master.age);
+  //     formData.append("city", this.master.city);
+  //     formData.append("staj", this.master.staj);
+  //     formData.append("clients_count", this.master.clients_count);
+  //     formData.append("min_cena", this.master.min_cena);
+  //     formData.append("description", this.master.description);
+  //     axios.post(`/api/master/${id}/update`, formData, {
+  //       headers: {
+  //         "Authorization": "Bearer " + this.token,
+  //       }
+  //     }).then(response => {
+  //       this.showMaster()
+  //       console.log(response)
+  //     }).catch(response => {
+  //       console.log(response)
+  //     })
+  //   },
+  //   updateAvatar(id) {
+  //     let formData = new FormData();
+  //     formData.append("avatar", this.file_ava);
+  //     console.log(formData);
+  //     axios.post(`/api/master/${id}/update_avatar`, formData, {
+  //       headers: {
+  //         "Authorization": "Bearer " + this.token,
+  //         'Accept': "application/json",
+  //         "Content-type": "multipart/form-data"
+  //       }
+  //     }).then(response => {
+  //       this.showMaster()
+  //       console.log(response)
+  //     }).catch(response => {
+  //       console.log(response)
+  //     })
+  //   },
+  //   handleFileUploadAvatar() {
+  //     this.file_ava = this.$refs.avatar.files[0];
+  //   },
+  //   handleFileUpload() {
+  //     this.file = this.$refs.file.files;
+  //   },
+  //   add_post() {
+  //     let formData = new FormData();
+  //     formData.append('text', this.text);
+  //     for (let index = 0; index < this.file.length; index++) {
+  //       let image = this.file[index];
+  //       formData.append('image[]', image);
+  //     }
+  //     axios.post('/api/master/post',
+  //       formData,
+  //       {
+  //         headers: {
+  //           'Content-Type': 'multipart/form-data',
+  //           'Accept': 'application/json',
+  //           "Authorization": "Bearer " + this.token
+  //         }
+  //       },
+  //     ).then(_r => {
+  //       this.text = ''
+  //       this.file = ''
+  //     })
+  //       .catch(function () {
+  //         console.log('FAILURE!!');
+  //       });
+  //   },
+  // }
 }
 </script>
 

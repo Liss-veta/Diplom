@@ -6,18 +6,9 @@
                     {{ this.masters.description }}
                 </p>
             </div>
-            <div class="uk-width-4-5">
-                <v-btn color="light-green-lighten-1" prepend-icon="mdi-cloud-upload"
-                    @click="load(2)">
-                    Добавить запись
-                </v-btn>
-                <v-btn color="light-green-lighten-1" prepend-icon="mdi-account-edit"
-                    @click="load(2)">
-                    Редактировать профиль
-                </v-btn>
-            </div>
         </div>
         <hr class="w-100" color="black">
+        <Post/>
         <!-- <Gallery></Gallery> -->
         <!-- <hr class="w-100" color="black"> -->
         <LentaSlider></LentaSlider>
@@ -32,17 +23,20 @@
 import Gallery from "../components/Master/Gallery.vue"
 import LentaSlider from "../components/LentaSlider.vue"
 import Footer from "../components/Base/Footer.vue"
+import Post from '../components/Master/Post.vue'
 export default {
     name: 'ProfilView',
     components: {
         Gallery,
         LentaSlider,
+        Post,
         Footer
     },
     data() {
         return {
             id: this.$route.params.id,
             masters: [],
+            header: this.$route.fullPath
         }
     },
     mounted() {

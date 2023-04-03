@@ -391,18 +391,14 @@ export default {
                     localStorage.setItem('role', response.data.user.role)
                     localStorage.setItem('name', response.data.user.name)
                     localStorage.setItem('id', response.data.user.id)
-
+                    location.reload()
+                    this.dialog = false
                     if(localStorage.getItem('role') === 'admin'){
                         return this.$router.push("/admin")
-                    }
-                    if(localStorage.getItem('role') === 'master'){
-                        return this.$router.push("/profile/" + localStorage.getItem('id'))
                     }
                     else{
                         return this.$router.push("/")
                     }
-                    location.reload()
-                    this.dialog = false
                 }).catch(response => {
                     console.log(response.response.data.message)
                 })

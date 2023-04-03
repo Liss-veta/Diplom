@@ -16,4 +16,9 @@ class Master extends Model
     public function sovets() {
         return $this->hasMany(Sovet::class);
     }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
 }

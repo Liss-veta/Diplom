@@ -3,9 +3,10 @@ import HomeView from '../web/HomeView.vue'
 import AboutView from '../web/AboutView.vue'
 import MasterView from '../web/MasterView.vue'
 import SovetView from '../web/SovetView.vue'
-import ProfilView from '../web/ProfilView.vue'
+import ProfilHeader from '../components/Master/ProfilHeader.vue'
 import FormMasterView from "../web/FormMasterView.vue"
 import AdminView from "../web/AdminView.vue"
+import NotFound from "../components/Base/Menu_auth.vue"
 
 const routes = [
   {
@@ -35,7 +36,7 @@ const routes = [
   },
   {
     path: '/profile/:id',
-    component:  ProfilView,
+    component:  ProfilHeader,
   },
   
 ]
