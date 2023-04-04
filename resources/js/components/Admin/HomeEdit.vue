@@ -52,16 +52,13 @@
                 <v-container>
                     <v-row>
                         <v-col cols="12" md="4">
-                            <v-text-field v-model="title" required label="Позвоните нам"
-                                value="Позвоните нам"></v-text-field>
+                            <v-text-field v-model="title" required label="Позвоните нам"></v-text-field>
                         </v-col>
                         <v-col cols="12" md="4">
-                            <v-text-field v-model="description"  required label="Есть вопросы?"
-                                value="Есть вопросы? мы поможем"></v-text-field>
+                            <v-text-field v-model="description"  required label="Есть вопросы?"></v-text-field>
                         </v-col>
                         <v-col cols="12" md="4">
-                            <v-text-field v-model="contact"  required label="+7(906)-457-03-40"
-                                value="+7(906)-457-03-40"></v-text-field>
+                            <v-text-field v-model="contact"  required label="+7(906)-457-03-40"></v-text-field>
                         </v-col>
                     </v-row>
                 </v-container>
@@ -71,16 +68,13 @@
                 <v-container class="mb-1">
                     <v-row class="mb-1">
                         <v-col cols="12" md="4">
-                            <v-text-field v-model="title"  required label="Напишите нам"
-                                value="Напишите нам"></v-text-field>
+                            <v-text-field v-model="title"  required label="Напишите нам"></v-text-field>
                         </v-col>
                         <v-col cols="12" md="4">
-                            <v-text-field v-model="description"  required label="Мы открыты..."
-                                value="Мы открыты для любых вопросов"></v-text-field>
+                            <v-text-field v-model="description"  required label="Мы открыты..."></v-text-field>
                         </v-col>
                         <v-col cols="12" md="4">
-                            <v-text-field v-model="contact"  required label="admin@mail.ru"
-                                value="admin@mail.ru"></v-text-field>
+                            <v-text-field v-model="contact"  required label="admin@mail.ru"></v-text-field>
                         </v-col>
                     </v-row>
                 </v-container>
@@ -90,16 +84,13 @@
                 <v-container>
                     <v-row>
                         <v-col cols="12" md="4">
-                            <v-text-field v-model="title"  required label="Обратная связь"
-                                value="Обратная связь"></v-text-field>
+                            <v-text-field v-model="title"  required label="Обратная связь"></v-text-field>
                         </v-col>
                         <v-col cols="12" md="4">
-                            <v-text-field v-model="description"  required label="Помогите нам..."
-                                value="Помогите нам стать лучше"></v-text-field>
+                            <v-text-field v-model="description"  required label="Помогите нам..."></v-text-field>
                         </v-col>
                         <v-col cols="12" md="4">
-                            <v-text-field v-model="contact" required label="Оставить отзыв"
-                                value="Оставить отзыв"></v-text-field>
+                            <v-text-field v-model="contact" required label="Оставить отзыв"></v-text-field>
                         </v-col>
                     </v-row>
                 </v-container>

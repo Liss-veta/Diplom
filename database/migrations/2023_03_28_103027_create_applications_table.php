@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('id_master')->constrained('masters');
             $table->foreignId('id_user')->constrained('users');
             $table->string('text');
-            $table->integer('number');
+            $table->string('number');
             $table->timestamps();
         });
     }

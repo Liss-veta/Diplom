@@ -6,23 +6,29 @@
                 <v-btn icon="mdi-dots-vertical" v-bind="props"></v-btn>
             </template>
             <v-list>
-                <v-list-item><button>Мои заявки</button></v-list-item>
-                <!-- <v-list-item v-show="this.role == 'master'"><button>Страница
-                        мастера</button></v-list-item> -->
-                <v-list-item v-show="this.role == 'master'"><button class="uk-margin-small-right" type="button"
-                        uk-toggle="target: #modal-example">Добавить
+                <v-list-item v-show="this.role == 'user'">Привет, {{ this.name }}</v-list-item>
+                <hr class="my-2">
+                <v-list-item><button class="w-100 text-start">
+                        <myApplication></myApplication>
+                    </button></v-list-item>
+                <v-list-item v-show="this.role == 'master'"><button class="w-100 text-start"
+                        @click.prevent="this.$router.push('/profile/' + this.masters.id)">Страница
+                        мастера</button></v-list-item>
+                <v-list-item v-show="this.role == 'master'"><button class="w-100 text-start uk-margin-small-right"
+                        type="button" uk-toggle="target: #modal-example">Добавить
                         запись</button></v-list-item>
                 <!-- <v-list-item v-show="this.role == 'master'"><button>Добавить
                         совет</button></v-list-item> -->
-                <v-list-item v-show="this.role == 'master'"><button class="uk-margin-small-right" type="button"
-                        uk-toggle="target: #modal-edit">Редактировать
+                <v-list-item v-show="this.role == 'master'"><button class="w-100 text-start uk-margin-small-right"
+                        type="button" uk-toggle="target: #modal-edit">Редактировать
                         профиль</button></v-list-item>
-                <v-list-item v-show="this.role == 'admin'"><button @click.prevent="this.$router.push('/admin')">Панель
+                <v-list-item v-show="this.role == 'admin'"><button class="w-100 text-start"
+                        @click.prevent="this.$router.push('/admin')">Панель
                         управления</button></v-list-item>
-                <v-list-item v-show="this.role == 'user'">
+                <v-list-item class="w-100 text-start" v-show="this.role == 'user'">
                     <Application />
                 </v-list-item>
-                <v-list-item><button v-on:click="logout">Выйти</button></v-list-item>
+                <v-list-item><button class="w-100 text-start" v-on:click="logout">Выйти</button></v-list-item>
             </v-list>
         </v-menu>
         <div id="modal-example" uk-modal>
@@ -40,7 +46,7 @@
                 </p>
             </div>
         </div>
-        <div id="modal-edit" uk-modal>
+        <div v-if="this.role == 'master'" id="modal-edit" uk-modal>
             <div class="uk-modal-dialog uk-modal-body">
                 <h2 class="uk-modal-title">Редактировать профиль</h2>
                 <form class="mt-5">
@@ -99,12 +105,14 @@ import Auth from './Auth copy.vue'
 import DialogZapis from '../DialogZapis.vue';
 import Application from '../user/Application.vue';
 import ProfilView from '../../web/ProfilView.vue';
+import myApplication from '../user/MyApplication.vue';
 export default {
     data() {
         return {
             id: this.$route.params.id,
             masters: [],
             token: localStorage.getItem('token'),
+            name: localStorage.getItem('name'),
             role: localStorage.getItem('role'),
             my_id_user: localStorage.getItem('id'),
             file: '',
@@ -128,6 +136,7 @@ export default {
         Auth,
         Application,
         ProfilView,
+        myApplication,
     },
     mounted() {
         this.showMaster()
@@ -141,14 +150,16 @@ export default {
                 }
             }).then(response => {
                 this.masters = response.data.content
-                this.master.name = response.data.content.name
-                this.master.surname = response.data.content.surname
-                this.master.age = response.data.content.age
-                this.master.city = response.data.content.city
-                this.master.staj = response.data.content.staj
-                this.master.clients_count = response.data.content.clients_count
-                this.master.min_cena = response.data.content.min_cena
-                this.master.description = response.data.content.description
+                if (this.role == 'master') {
+                    this.master.name = response.data.content.name
+                    this.master.surname = response.data.content.surname
+                    this.master.age = response.data.content.age
+                    this.master.city = response.data.content.city
+                    this.master.staj = response.data.content.staj
+                    this.master.clients_count = response.data.content.clients_count
+                    this.master.min_cena = response.data.content.min_cena
+                    this.master.description = response.data.content.description
+                }
                 console.log(response);
             }).catch(response => { console.log(response) })
         },

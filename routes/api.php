@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\MasterController;
@@ -34,6 +35,7 @@ Route::get('/master/{id}/post', [PostController::class, 'index']);
 Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get('/logout', [AuthController::class, 'logout']);
     Route::post('/master/create', [MasterController::class, 'create']);
+    Route::post('/user/application_create', [ApplicationController::class, 'create']);
 });
 
 Route::group(['middleware' => ['master', 'auth:sanctum']], function(){

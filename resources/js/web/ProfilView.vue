@@ -11,7 +11,7 @@
         <Post/>
         <!-- <Gallery></Gallery> -->
         <!-- <hr class="w-100" color="black"> -->
-        <LentaSlider></LentaSlider>
+        <!-- <LentaSlider></LentaSlider> -->
         <v-container>
             <v-divider class="my-2"></v-divider>
         </v-container>

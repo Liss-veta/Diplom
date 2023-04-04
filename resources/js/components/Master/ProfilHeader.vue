@@ -47,7 +47,7 @@
                     </div>
                     <div class="w-100 mt-10 d-flex align-center justify-space-between">
                         <hr class="w-100 ma-0">
-                        <DialogZapis v-if="this.masters.id_user != this.my_id_user"></DialogZapis>
+                        <DialogZapis v-if="this.masters.id_user != this.my_id_user && this.my_id_user" ></DialogZapis>
                     </div>
                 </v-col>
                 <v-col class="w-50 d-flex justify-center position-relative">
@@ -98,6 +98,7 @@ export default {
     },
     mounted() {
         this.showMaster()
+        console.log(this.id);
     },
     methods: {
         showMaster() {
@@ -119,83 +120,6 @@ export default {
                 console.log(this.master.name);
             }).catch(response => { console.log(response.data) })
         },
-        // update(id) {
-        //     let formData = new FormData();
-        //     formData.append("name", this.master.name);
-        //     formData.append("surname", this.master.surname);
-        //     formData.append("age", this.master.age);
-        //     formData.append("city", this.master.city);
-        //     formData.append("staj", this.master.staj);
-        //     formData.append("clients_count", this.master.clients_count);
-        //     formData.append("min_cena", this.master.min_cena);
-        //     formData.append("description", this.master.description);
-        //     axios.post(`/api/master/${id}/update`, formData, {
-        //         headers: {
-        //             "Authorization": "Bearer " + this.token,
-        //         }
-        //     }).then(response => {
-        //         this.showMaster()
-        //         console.log(response)
-        //     }).catch(response => {
-        //         console.log(response)
-        //     })
-        // },
-        // updateAvatar(id) {
-        //     let formData = new FormData();
-        //     formData.append("avatar", this.file_ava);
-        //     console.log(formData);
-        //     axios.post(`/api/master/${id}/update_avatar`, formData, {
-        //         headers: {
-        //             "Authorization": "Bearer " + this.token,
-        //             'Accept': "application/json",
-        //             "Content-type": "multipart/form-data"
-        //         }
-        //     }).then(response => {
-        //         this.showMaster()
-        //         console.log(response)
-        //     }).catch(response => {
-        //         console.log(response)
-        //     })
-        // },
-        // logout() {
-        //     axios.get('api/logout', {
-        //         headers: { "Authorization": "Bearer " + this.token }
-        //     }).then(response => {
-        //         location.reload()
-        //         localStorage.clear()
-        //     }).catch(response => { console.log(response) })
-
-        // },
-        // handleFileUploadAvatar() {
-        //     this.file_ava = this.$refs.avatar.files[0];
-        // },
-        // handleFileUpload() {
-        //     this.file = this.$refs.file.files;
-        // },
-        // add_post() {
-        //     let formData = new FormData();
-        //     formData.append('text', this.text);
-        //     for (let index = 0; index < this.file.length; index++) {
-        //         let image = this.file[index];
-        //         formData.append('image[]', image);
-        //     }
-        //     axios.post('/api/master/post',
-        //         formData,
-        //         {
-        //             headers: {
-        //                 'Content-Type': 'multipart/form-data',
-        //                 'Accept': 'application/json',
-        //                 "Authorization": "Bearer " + this.token
-        //             }
-        //         },
-        //     ).then(_r => {
-        //         this.text = ''
-        //         this.file = ''
-        //     })
-        //         .catch(function () {
-        //             console.log('FAILURE!!');
-        //         });
-        // },
     }
 }
 </script>
