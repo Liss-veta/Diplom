@@ -1,26 +1,29 @@
 <template>
-    <div class="mt-12" v-for="masters in arr_masters" :key="masters">
-        <div class="comanda_laptop position-relative" v-if="(masters.id % 2) == 1">
-            <div uk-scrollspy="cls: uk-animation-slide-left; repeat: true" class="prof"><img :src="masters.avatar"
-                    alt=""></div>
+    <div class="mt-12" v-for="(masters, index) in arr_masters" :key="masters">
+        <div class="comanda_laptop position-relative" v-if="(index % 2) == 0">
+            <div uk-scrollspy="cls: uk-animation-slide-left; repeat: true" class="prof"><img :src="masters.avatar" alt="">
+            </div>
             <div uk-scrollspy="cls: uk-animation-slide-right; repeat: true" class="textprof">
                 <form>
                     <fieldset class="topfiel">
                         <legend>
                             <div class="btn_first">
-                                <router-link :to="{ path: '/profile/'+ masters.id }"><span class="noselect">Подробнее</span></router-link>
+                                <router-link :to="'/profile/' + masters.id"><span
+                                        class="noselect">Подробнее</span></router-link>
                             </div>
                         </legend>
                         <div class="cartochka d-flex flex-column">
                             <h2>{{ masters.name }} {{ masters.surname }}
-                                <router-link :to="{ path: '/profile/'+ masters.id }"><v-btn dark class="but_com550 pink accent-1">
-                                    Подробнее
-                                </v-btn></router-link>
+                                <router-link :to="'/profile/' + masters.id"><v-btn dark class="but_com550 pink accent-1">
+                                        Подробнее
+                                    </v-btn></router-link>
                             </h2>
-                            <div class="d-flex flex-column justify-content-between pb-12 pb-sm-8 pb-md-2 pb-lg-0 pb-xl-0">
+                            <div class="d-flex flex-column justify-content-between pb-12 pb-sm-8 pb-md-2 pb-lg-0 pb-xl-0 mb-4">
                                 <div>
-                                    <h5 class="text-h6 text-sm-h5 text-md-h5 text-lg-h5 text-xl-h5">{{ masters.staj }} года</h5>
-                                    <h5 class="text-h6 text-sm-h5 text-md-h5 text-lg-h5 text-xl-h5">от {{ masters.min_cena}}р</h5>
+                                    <h5 class="text-h6 text-sm-h5 text-md-h5 text-lg-h5 text-xl-h5">{{ masters.staj }} года
+                                    </h5>
+                                    <h5 class="text-h6 text-sm-h5 text-md-h5 text-lg-h5 text-xl-h5">от {{
+                                        masters.min_cena }}р</h5>
                                     <h5 class="text-h6 text-sm-h5 text-md-h5 text-lg-h5 text-xl-h5">{{ masters.city }}</h5>
                                 </div>
                                 <div>
@@ -32,38 +35,42 @@
                         </div>
                     </fieldset>
                     <fieldset class="bottomfiel">
-                        <legend>
-                            <div><img src="assets/image 3.png" alt=""></div>
-                            <div><img src="assets/image 7.png" alt=""></div>
-                            <div class="mr-0"><img src="assets/image 5.png" alt=""></div>
+                        <legend v-if="masters.tag.length > 0">
+                            <v-chip v-for="(tag, i) in masters.tag" :key="tag" size="large" class="mr-2" label
+                                :color="i % 2 == 0 ? 'success' : 'pink'" text-color="white">
+                                {{ tag.id_tag.tag_name }}
+                            </v-chip>
                         </legend>
                     </fieldset>
                 </form>
             </div>
         </div>
         <div class="comanda_laptop two position-relative" v-else>
-            <div uk-scrollspy="cls: uk-animation-slide-right; repeat: true" class="prof1"><img :src="masters.avatar"
-                    alt=""></div>
+            <div uk-scrollspy="cls: uk-animation-slide-right; repeat: true" class="prof1"><img :src="masters.avatar" alt="">
+            </div>
             <div uk-scrollspy="cls: uk-animation-slide-left; repeat: true" class="textprof1">
                 <form>
                     <fieldset class="topfiel1">
                         <legend>
                             <div class="btn_first">
-                                <span class="noselect"><router-link :to="{ path: '/profile/'+ masters.id }">Подробнее</router-link></span>
+                                <span class="noselect"><router-link
+                                        :to="'/profile/' + masters.id">Подробнее</router-link></span>
                             </div>
                         </legend>
                         <div
                             class="cartochka d-flex flex-column align-start align-sm-end align-md-end align-lg-end align-xl-end">
                             <h2> {{ masters.name }} {{ masters.surname }}
-                                <router-link :to="{ path: '/profile/'+ masters.id }"><v-btn dark class="but_com550 pink accent-1">
-                                    Подробнее
-                                </v-btn></router-link>
+                                <router-link :to="'/profile/' + masters.id"><v-btn dark class="but_com550 pink accent-1">
+                                        Подробнее
+                                    </v-btn></router-link>
                             </h2>
-                            <div class="d-flex flex-column justify-content-between pb-12 pb-sm-8 pb-md-2 pb-lg-0 pb-xl-0">
+                            <div class="d-flex flex-column justify-content-between pb-12 pb-sm-8 pb-md-2 pb-lg-0 pb-xl-0 mb-6">
                                 <div>
-                                    <h5 class="text-h6 text-sm-h5 text-md-h5 text-lg-h5 text-xl-h5">{{ masters.staj }} года</h5>
-                                    <h5 class="text-h6 text-sm-h5 text-md-h5 text-lg-h5 text-xl-h5">от {{ masters.min_cena}}р</h5>
-                                    <h5 class="text-h6 text-sm-h5 text-md-h5 text-lg-h5 text-xl-h5">{{ masters.city}}</h5>
+                                    <h5 class="text-h6 text-sm-h5 text-md-h5 text-lg-h5 text-xl-h5">{{ masters.staj }} года
+                                    </h5>
+                                    <h5 class="text-h6 text-sm-h5 text-md-h5 text-lg-h5 text-xl-h5">от {{
+                                        masters.min_cena }}р</h5>
+                                    <h5 class="text-h6 text-sm-h5 text-md-h5 text-lg-h5 text-xl-h5">{{ masters.city }}</h5>
                                 </div>
                                 <div>
                                     <p>Стаж</p>
@@ -74,10 +81,11 @@
                         </div>
                     </fieldset>
                     <fieldset class="bottomfiel1">
-                        <legend>
-                            <div class="ml-0"><img src="assets/image 3.png" alt=""></div>
-                            <div><img src="assets/image 7.png" alt=""></div>
-                            <div><img src="assets/image 5.png" alt=""></div>
+                        <legend v-if="masters.tag.length > 0">
+                            <v-chip v-for="(tag, i) in masters.tag" :key="tag" size="large" class="mr-2" label
+                                :color="i % 2 == 0 ? 'success' : 'pink'" text-color="white">
+                                {{ tag.id_tag.tag_name }}
+                            </v-chip>
                         </legend>
                     </fieldset>
                 </form>
@@ -590,5 +598,4 @@ export default {
         padding: 10px 5px 0 10px;
         justify-content: center;
     }
-}
-</style>
+}</style>

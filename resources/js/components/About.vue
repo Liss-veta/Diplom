@@ -10,8 +10,7 @@
                     </div>
                     <div class="textWidth">
                         <p class="text-subtitle-1">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                            {{ this.text_one }}
                         </p>
                     </div>
                 </div>
@@ -19,7 +18,7 @@
                     <v-card color="light-green-lighten-1"
                         class="rounded-0 kv710"></v-card>
                     <div class="pa-0 about_adap">
-                        <v-img src="assets/image 18.png"
+                        <v-img :src=this.image_one
                         >
                         <template v-slot:placeholder>
                             <v-row
@@ -45,6 +44,24 @@
 <script>
 export default {
     name: "v-About",
+    data() {
+        return {
+            image_one: "",
+            text_one: "",
+        }
+    },
+    mounted() {
+        this.getIndex()
+    },
+    methods: {
+        getIndex() {
+            axios.get('api/about').then(response => {
+                this.image_one = response.data.content[0].image
+                this.text_one = response.data.content[0].description
+                console.log(response.data.content)
+            }).catch(response => { console.log(response) })
+        },
+    }
 }
 </script>
 <style scoped>

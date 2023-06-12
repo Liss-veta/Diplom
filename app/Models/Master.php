@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Sovet;
+use App\Models\Post;
+use App\Models\Tags;
 
 class Master extends Model
 {
@@ -20,5 +23,10 @@ class Master extends Model
     public function posts()
     {
         return $this->hasMany(Post::class);
+    }
+
+    public function tags()
+    {
+        return $this->hasMany(Tags::class);
     }
 }

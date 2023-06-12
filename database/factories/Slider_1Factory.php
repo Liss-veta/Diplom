@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Slider_1>
  */
-class Slider1Factory extends Factory
+class Slider_1Factory extends Factory
 {
     /**
      * Define the model's default state.

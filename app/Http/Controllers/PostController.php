@@ -19,12 +19,6 @@ class PostController extends Controller
     {
         $master = Master::findOrFail($id);
         $posts = PostResource::collection(Post::all()->where('id_master', $master->id));
-        // $posts = Post::all()->where('id_master', $master->id);
-        // return response([
-            // 'content' => $posts,
-            // 'name' => $master->name,
-            // 'surname' => $master->surname,
-        // ], 200);
         return $posts;
     }
 
@@ -39,22 +33,12 @@ class PostController extends Controller
         $post->id_master = $master->id;
         $post->description = $request->text;
         $images = $request->file('image');
-
-        // $images = $request->file('image');
-        // if ($images != null) {
-        //     $fullPath = '';
-        //     foreach($images as $image){
-        //         $path = Storage::disk('local')->putFile('public/posts_img', $image) .',';
-        //         $fullPath .= Storage::url($path);
-        //     }
-        //     $post->images = $fullPath;
-        // } else{
-        //     $post->images = 'NULL';
-        // }
         $post->save();
 
         foreach($images as $image){
-            $path = Storage::disk('public')->put('posts_img', $image);
+            $path = 'storage/';
+            $path .= Storage::disk('public')->put('posts_img', $image);
+            $path = url($path);
             Post_image::create([
                 'id_post' => $post->id,
                 'image' => $path
@@ -73,9 +57,10 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show()
     {
-        //
+        $posts = Post::orderBy('created_at', 'desc')->limit(5)->get();
+        return PostResource::collection($posts);
     }
 
     /**
@@ -94,11 +79,32 @@ class PostController extends Controller
         //
     }
 
+    public function updateImage($id, Request $request) {
+        $image = $request['image'];
+        $path = null;
+        if ($image) {
+            $path = 'storage/';
+            $path .= Storage::disk('public')->put('posts_img', $image);
+            $path = url($path);
+        }
+        $stroke = Post_image::where('id', $id)->update([
+            'image' => $path
+        ]);
+        return response([
+            'message' => 'Успешно изменено',
+            'content' => $stroke
+        ], 200);
+    }
+
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function delete($id)
     {
-        //
+        Post::where('id', $id)->delete();
+        Post_image::where('id_post', $id)->delete();
+        return response([
+            'message' => 'Пост успешно удален'
+        ]);
     }
 }

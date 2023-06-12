@@ -1,5 +1,10 @@
 <template>
-    <div>
+    <div class="overlay" v-if="this.loadingStatus">
+        <v-progress-circular
+      indeterminate
+      color="pink accent-2"
+    ></v-progress-circular></div>
+    <div v-else>
         <div class="mt-n16 d-flex flex-column align-items-center">
             <div class="d-flex justify-center">
                 <p class="uk-width-4-5 text-center tht">
@@ -9,9 +14,6 @@
         </div>
         <hr class="w-100" color="black">
         <Post/>
-        <!-- <Gallery></Gallery> -->
-        <!-- <hr class="w-100" color="black"> -->
-        <!-- <LentaSlider></LentaSlider> -->
         <v-container>
             <v-divider class="my-2"></v-divider>
         </v-container>
@@ -24,6 +26,7 @@ import Gallery from "../components/Master/Gallery.vue"
 import LentaSlider from "../components/LentaSlider.vue"
 import Footer from "../components/Base/Footer.vue"
 import Post from '../components/Master/Post.vue'
+
 export default {
     name: 'ProfilView',
     components: {
@@ -36,15 +39,15 @@ export default {
         return {
             id: this.$route.params.id,
             masters: [],
-            header: this.$route.fullPath
+            header: this.$route.fullPath,
         }
     },
     mounted() {
-        this.getInfo()
+        this.getInfo(this.$route.params.id)
     },
     methods:{
-        getInfo(){
-            axios.get(`/api/masters/${this.id}`, {
+        getInfo(id){
+            axios.get(`/api/masters/${id}`, {
                 headers: {
                     'Accept': 'application/json',
                     'Content-type': 'application/json',
@@ -62,5 +65,18 @@ export default {
 <style>
 .tht {
     word-break: break-word;
+}
+
+.overlay {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.086);
+    z-index: 1000;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
 }
 </style>

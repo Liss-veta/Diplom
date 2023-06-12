@@ -2,44 +2,16 @@
     <div class="w-100">
         <h2 class="pl-12 pt-4">Первый слайдер</h2>
         <v-row class="pa-12 pt-6">
-            <v-col class="d-flex child-flex" cols="4" style="height:400px">
+            <v-col v-for="image in this.one_slide" class="d-flex child-flex" cols="4" style="height:400px">
                 <div class="uk-text-center">
                     <div class="hover uk-height-1-1 uk-inline-clip uk-transition-toggle uk-light" tabindex="0">
-                        <img :src="this.one_slide" class="hover_img" alt="">
+                        <img :src="image.image" class="hover_img" alt="">
                         <div class="uk-position-center px-4" style="width:100%">
                             <span class="uk-transition-fade uk-width-1-1"><v-file-input class="w-100" type="file"
                                     label="Нажмите чтобы выбрать изображение" variant="filled"
-                                    v-on:change="handleFileUpload()" prepend-icon="mdi-camera"
+                                    prepend-icon="mdi-camera"
                                     ref="slider"></v-file-input><v-btn elevation="2" outlined plain tile
-                                    @click.prevent="update(1)">Сохранить</v-btn></span>
-                        </div>
-                    </div>
-                </div>
-            </v-col>
-            <v-col class="d-flex child-flex" cols="4" style="height:400px">
-                <div class="uk-text-center">
-                    <div class="hover uk-height-1-1 uk-inline-clip uk-transition-toggle uk-light" tabindex="0">
-                        <img :src="this.two_slide" class="hover_img" alt="">
-                        <div class="uk-position-center px-4" style="width:100%">
-                            <span class="uk-transition-fade uk-width-1-1"><v-file-input class="w-100" type="file"
-                                    label="Нажмите чтобы выбрать изображение" variant="filled"
-                                    v-on:change="handleFileUpload()" prepend-icon="mdi-camera"
-                                    ref="slider"></v-file-input><v-btn elevation="2" outlined plain tile
-                                    @click.prevent="update(2)">Сохранить</v-btn></span>
-                        </div>
-                    </div>
-                </div>
-            </v-col>
-            <v-col class="d-flex child-flex" cols="4" style="height:400px">
-                <div class="uk-text-center">
-                    <div class="hover uk-height-1-1 uk-inline-clip uk-transition-toggle uk-light" tabindex="0">
-                        <img :src="this.three_slide" class="hover_img" alt="">
-                        <div class="uk-position-center px-4" style="width:100%">
-                            <span class="uk-transition-fade uk-width-1-1"><v-file-input class="w-100" type="file"
-                                    label="Нажмите чтобы выбрать изображение" variant="filled"
-                                    v-on:change="handleFileUpload()" prepend-icon="mdi-camera"
-                                    ref="slider"></v-file-input><v-btn elevation="2" outlined plain tile
-                                    @click.prevent="update(3)">Сохранить</v-btn></span>
+                                    @click.prevent="update(image.id)">Сохранить</v-btn></span>
                         </div>
                     </div>
                 </div>
@@ -130,16 +102,18 @@ export default {
                     "Authorization": "Bearer " + this.token
                 }
             }).then(response => {
-                this.one_slide = response.data.content[0].image;
-                this.two_slide = response.data.content[1].image;
-                this.three_slide = response.data.content[2].image;
+                this.one_slide = response.data.content;
                 console.log(this.one_slide);
                 console.log(response.data.content)
             }).catch(response => { console.log(response) })
         },
         update(id) {
             let formData = new FormData();
-            formData.append("slider", this.file);
+            for (let index = 0; index < this.one_slide.length; index++) {
+                if (id == this.one_slide[index].id) {
+                    formData.append("slider", this.$refs.slider[id - 1].files[0]);
+                }
+            }
             axios.post(`/api/admin/slider/${id}/update`, formData, {
                 headers: {
                     "Authorization": "Bearer " + this.token,
@@ -169,9 +143,10 @@ export default {
                 console.log(response.response.data.message)
             })
         },
-        handleFileUpload() {
-            this.file = this.$refs.slider.files[0];
-        },
+        // handleFileUpload() {
+        //     this.file = this.$refs.slider.files[0];
+        //     console.log(this.$refs)
+        // },
     }
 }
 

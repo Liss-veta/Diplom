@@ -28,7 +28,6 @@ class Slider_1 extends Controller
             $path = url($path);
         }
         if (MSlider_1::where('number', $id)->first()) {
-            
             $stroke = MSlider_1::where('number', $id)->update([
                 'image' => $path
             ]);

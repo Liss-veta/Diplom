@@ -1,37 +1,43 @@
 <template>
-    <v-footer class="d-flex flex-column" color="light-green lighten-1">
-        <v-container class="d-flex flex-column flex-sm-row flex-md-row flex-lg-row flex-xl-row align-center justify-space-between px-4">
-          <div class="uk-width-4-5 uk-width-2-5@s uk-width-2-5@m uk-width-1-5@l d-flex justify-space-around">
-              <v-btn icon>
-                  <v-icon large>mdi-facebook</v-icon>
-              </v-btn>
-              <v-btn icon>
-                  <v-icon large>mdi-twitter</v-icon>
-              </v-btn>
-              <v-btn icon>
-                  <v-icon large>mdi-linkedin</v-icon>
-              </v-btn>
-              <v-btn icon>
-                  <v-icon large>mdi-instagram</v-icon>
-              </v-btn>
-          </div>
-          <div class="px-4 py-2 text-center d-none d-sm-block d-md-block d-lg-block d-xl-block">
-            2022 — <strong>Liss_V</strong>
-          </div>
-        </v-container>
-    </v-footer>
-  </template>
+  <v-footer class="bg-light-green-lighten-1 d-flex flex-column mt-10">
+    <div class="d-flex mt-2 text-white align-center w-100 justify-space-between align-center">
+      <img src="assets/паттерн 1.png" style="height: 70px;" cover alt=""/>
+      <v-row justify="center" no-gutters>
+      <v-btn variant="text" class="mx-2" rounded="xl">
+        <router-link style="text-decoration: none;" class="mx-2 text-white" rounded="xl" to="/">Главная</router-link>
+      </v-btn>
+      <v-btn variant="text" class="mx-2" rounded="xl">
+        <router-link style="text-decoration: none;" class="mx-2 text-white" rounded="xl" to="/about">О нас</router-link>
+      </v-btn>
+      <v-btn variant="text" class="mx-2" rounded="xl">
+        <router-link style="text-decoration: none;" class="mx-2 text-white" rounded="xl"
+          to="/masters">Мастера</router-link>
+      </v-btn>
+      <v-btn variant="text" class="mx-2" rounded="xl">
+        <router-link style="text-decoration: none;" class="mx-2 text-white" rounded="xl" to="/sovets">Советы</router-link>
+      </v-btn>
+    </v-row>
+       <div class="text-caption text-end text-grey-darken-3"> 
+        <p class="ma-0">Условия пользования</p>
+        <p class="ma-0">Политика конфиндециальности</p>
+        <hr class="w-100 my-2 bg-grey-darken-3" style="border-top: 1px solid #424242;" color="grey-darken-3">
+        <p class="mt-1">CopyRight © 2023. Все права защищены</p>
+      </div>
+      
+    </div>
+  </v-footer>
+</template>
 
 <script>
 export default {
-    name: 'v-Footer',
-    data: () => ({
-      icons: [
-        'mdi-facebook',
-        'mdi-twitter',
-        'mdi-linkedin',
-        'mdi-instagram',
-      ],
-    }),
+  name: 'v-Footer',
+  data: () => ({
+    icons: [
+      'mdi-facebook',
+      'mdi-twitter',
+      'mdi-linkedin',
+      'mdi-instagram',
+    ],
+  }),
 }
 </script>

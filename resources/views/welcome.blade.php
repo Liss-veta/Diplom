@@ -11,6 +11,7 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
 
         <!-- Styles -->
+        @vite('resources/css/app.css')
         <!-- UIkit CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.6/dist/css/uikit.min.css" />
 
@@ -20,6 +21,7 @@
     </head>
     <body>
        <div id="app"></div>
-         @vite('resources/js/app.js')
+        @vite('resources/js/scripts/notifications.js')
+        @vite('resources/js/app.js')
     </body>
 </html>

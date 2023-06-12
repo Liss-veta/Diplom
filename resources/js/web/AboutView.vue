@@ -2,13 +2,12 @@
   <div class="about">
     <Home></Home>
     <About></About>
+    <v-divider class="my-12"></v-divider>
     <AboutTwo></AboutTwo>
-    <v-divider class="mt-12"></v-divider>
+    <v-divider class="my-12"></v-divider>
     <LentaSlider></LentaSlider>
     <v-divider class="mt-12"></v-divider>
     <Contact></Contact>
-    <v-divider class="mt-12"></v-divider>
-    <Reviews></Reviews>
     <Footer></Footer>
   </div>
 </template>
@@ -19,7 +18,6 @@ import About from "../components/About.vue"
 import Home from "../components/Home.vue"
 import AboutTwo from "../components/AboutTwo.vue"
 import Contact from "../components/Base/Contact.vue"
-import Reviews from "../components/Reviews.vue"
 import Footer from "../components/Base/Footer.vue"
 
 export default {
@@ -30,7 +28,6 @@ export default {
     Home,
     AboutTwo, 
     Contact,
-    Reviews,
     Footer
   }
 }

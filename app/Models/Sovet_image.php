@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Sovet_image extends Model
 {
     use HasFactory;
+
+    protected $guarded;
 }

@@ -9,5 +9,5 @@ class Application extends Model
 {
     use HasFactory;
 
-    protected $guarded;
+    protected $guarded = false;
 }

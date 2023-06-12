@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('sovets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_user')->constrained('masters');
+            $table->foreignId('id_master')->constrained('masters');
             $table->string('description');
             $table->string('privilege');
             $table->timestamps();

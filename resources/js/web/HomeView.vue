@@ -5,14 +5,9 @@
     class="w-100 justify-center mb-12">
       <WorksSlider></WorksSlider>
     </v-row>
-    <v-divider class="mb-12"></v-divider>
     <CardMaster></CardMaster>
-    <v-divider style="margin-top: 6vw;"></v-divider>
     <SliderSovet></SliderSovet>
-    <v-divider class="mt-12"></v-divider>
     <Contact></Contact>
-    <v-divider class="mt-6"></v-divider>
-    <Reviews></Reviews>
     <Footer></Footer>
   </div>
 </template>
@@ -23,7 +18,7 @@ import WorksSlider from '../components/WorksSlider.vue'
 import CardMaster from '../components/CardMaster.vue'
 import SliderSovet from '../components/SliderSovet.vue'
 import Contact from '../components/Base/Contact.vue'
-import Reviews from '../components/Reviews.vue'
+// import Reviews from '../components/Reviews.vue'
 import Footer from '../components/Base/Footer.vue'
 
 // @ is an alias to /src
@@ -35,7 +30,7 @@ export default {
     CardMaster,
     SliderSovet,
     Contact,
-    Reviews,
+    // Reviews,
     Footer,
   }
 }

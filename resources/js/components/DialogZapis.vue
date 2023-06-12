@@ -19,7 +19,7 @@
         </v-col>
         <p class="uk-text-right">
           <!-- <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button> -->
-          <button class="uk-button bg-pink-lighten-3" type="button" @click.prevent="add_Application()">Save</button>
+          <button class="uk-button bg-pink-lighten-3 uk-modal-close text-white" type="button" @click.prevent="add_Application()">Отправить</button>
         </p>
       </div>
     </div>

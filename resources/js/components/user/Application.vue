@@ -2,7 +2,7 @@
     <v-row justify="center">
         <v-dialog v-model="dialog" class="bg-pink-lighten-3 d-flex" persistent width="1024">
             <template v-slot:activator="{ props }">
-                <v-btn v-bind="props">
+                <v-btn class="text-black text-body-1" bg-color="pink" variant="text" v-bind="props">
                     Хочу стать мастером
                 </v-btn>
             </template>
@@ -57,7 +57,7 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue-darken-1" variant="text" @click="dialog = false">
+                    <v-btn color="brown" variant="text" @click="dialog = false">
                         Отмена
                     </v-btn>
                     <v-btn color="green-darken-1" variant="text" @click.prevent="this.animation">
@@ -72,12 +72,20 @@
                 <v-card-text class="d-flex flex-column align-center justify-center">
                     <div class="w-50 d-flex flex-column justify-center align-center">
                         <img src="assets/no_avatar.jpg" alt="avatar" class="py-4 w-50">
-                        <v-file-input name="avatar" ref="avatar" type="file" v-on:change="handleFileUpload()" label="File input" variant="filled" prepend-icon="mdi-camera" class="w-100"></v-file-input>
+                        <v-file-input name="avatar" ref="avatar" type="file" v-on:change="handleFileUpload()"
+                            label="File input" variant="filled" prepend-icon="mdi-camera" class="w-100"></v-file-input>
+                        <v-col cols="12" sm="11">
+                            <v-select chips
+                            multiple 
+                            v-model="this.categories"
+                            label="Select"
+                            :items="this.tags"></v-select>
+                        </v-col>
                     </div>
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue-darken-1" variant="text" @click="dialog = false">
+                    <v-btn color="brown" variant="text" @click="dialog = false">
                         Отмена
                     </v-btn>
                     <v-btn color="green-darken-1" variant="text" @click.prevent="this.applications">
@@ -94,6 +102,8 @@ export default {
     data: () => ({
         dialog: false,
         name: localStorage.getItem('name'),
+        tags: [],
+        categories: [],
         file: null,
         master: {
             name: '',
@@ -109,12 +119,27 @@ export default {
         token: localStorage.getItem('token'),
         message_error: ''
     }),
+    mounted() {
+        this.getTags()
+    },
     methods: {
+        getTags() {
+            axios.get('api/tags', {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            }).then(response => {
+                for (let index = 0; index < response.data.length; index++) {
+                    this.tags.push(response.data[index].tag_name);
+                }
+            }).catch(error => { console.log(error) })
+        },
         applications() {
             this.master.name = this.name
             let formData = new FormData();
             formData.append("method", "_POST");
             formData.append("avatar", this.file);
+            formData.append("categories", this.categories);
             formData.append("name", this.master.name);
             formData.append("surname", this.master.surname);
             formData.append("age", this.master.age);

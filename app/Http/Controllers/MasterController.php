@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\MasterResource;
 use App\Models\Master;
+use App\Models\Master_tags;
+use App\Models\User;
+use App\Models\Tags;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -22,10 +25,9 @@ class MasterController extends Controller
             if (!$masters) {
                 return new Exception('Мастера отсутствуют!', 404);
             }
-
             return response()->json([
                 'message' => 'Вывод всех мастеров',
-                'content' => $masters
+                'content' => MasterResource::collection(Master::all()->where('admin_status', 'active')),
             ], 200);
         } catch (\Exception $error) {
             return response()->json([
@@ -33,7 +35,37 @@ class MasterController extends Controller
             ]);
         }
     }
-
+    public function indexAdmin(): JsonResponse
+    {
+        return response()->json([
+            'message' => 'Вывод всех мастеров',
+            'content' => MasterResource::collection(Master::all()->where('admin_status', '!=', 'undefined')),
+        ], 200);
+    }
+    public function indexTags($id): JsonResponse
+    {
+        $master = Master::find($id);
+        $tags = Master_tags::all()->where('id_master', $id);
+        $result = [];
+        foreach ($tags as $tag) {
+            array_push($result, Tags::find($tag['id_tag'])->tag_name);
+        }
+        if (!$master) {
+            return response()->json([
+                'message' => 'Мастера нет!',
+            ], 404);
+        }
+        return response()->json([
+            'message' => 'Вывод всех тегов мастера',
+            'tags' => $result,
+        ], 200);
+    }
+    public function showMain()
+    {
+        return response()->json([
+            'content' => Master::all()->where('privilege', '!=', '0')
+        ]);
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -48,6 +80,10 @@ class MasterController extends Controller
             'clients_count' => 'required|integer',
             'min_cena' => 'required|integer',
             'description' => 'required|string|min:50|max:400',
+        ]);
+
+        User::where('id', auth()->user()->id)->update([
+            'name' => $data['name']
         ]);
 
         $avatar = $request['avatar'];
@@ -73,12 +109,20 @@ class MasterController extends Controller
             'privilege' => '0',
         ]);
 
+        $masterCheck = Master::where('id_user', auth()->user()->id)->first();
+        foreach (explode(",", $request['categories']) as $category) {
+            $tag = Tags::where('tag_name', $category)->first();
+            Master_tags::create([
+                'id_master' => $masterCheck->id,
+                'id_tag' => $tag->id
+            ]);
+        }
+
         return response()->json([
             'message' => 'Успешно создан мастер!',
             'content' => $master
         ], 201);
     }
-
     /**
      * Display the specified resource.
      */
@@ -90,11 +134,17 @@ class MasterController extends Controller
         ], 200, ["Content-type" => "application/json"]);
     }
 
-    public function showOne($id_user){
+    public function showOne($id_user)
+    {
         $arr = Master::where('id_user', $id_user)->first();
         return response()->json([
             'content' => $arr
         ], 200, ["Content-type" => "application/json"]);
+    }
+
+    public function showAdmin()
+    {
+        return Master::where('admin_status', 'undefined')->get();
     }
 
     public function ban($id)
@@ -131,6 +181,18 @@ class MasterController extends Controller
             'min_cena' => $min_cena,
             'description' => $description,
         ]);
+
+        $masterCheck = Master::where('id_user', $id)->first();
+        foreach (explode(",", $request['categories']) as $category) {
+            $tag = Tags::where('tag_name', $category)->first();
+            if (!Master_tags::where('id_tag', $tag->id)->where('id_master', $masterCheck->id)->first()) {
+                Master_tags::create([
+                    'id_master' => $masterCheck->id,
+                    'id_tag' => $tag->id
+                ]);
+            }
+        }
+
         return response([
             'message' => 'Успешно обновили данные'
         ]);
@@ -151,6 +213,21 @@ class MasterController extends Controller
             'message' => 'Успешно изменено',
             'content' => $stroke
         ], 200);
+    }
+
+    public function answerAdmin(Request $request, $id)
+    {
+        Master::where('id_user', $id)->update([
+            'admin_status' => $request['answer']
+        ]);
+        if ($request['answer'] == 'active') {
+            User::where('id', $id)->update([
+                'role' => 'master'
+            ]);
+        }
+        return response([
+            'message' => 'Good'
+        ]);
     }
 
     /**

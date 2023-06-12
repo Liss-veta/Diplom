@@ -1,24 +1,8 @@
 <template>
  <div class="container">
-  <div class="card">
-    <img src="assets/image 10.png">
-    <div class="card__head">Бурьякова Анна</div>
-  </div>
-  <div class="card">
-    <img src="assets/image 5.png">
-    <div class="card__head">Абрамов Юрий</div>
-  </div>
-  <div class="card">
-    <img src="assets/image 7.png">
-    <div class="card__head">Агаева Анастасия</div>
-  </div>
-  <div class="card">
-    <img src="assets/image 3.png">
-    <div class="card__head">Киселева Алеся</div>
-  </div>
-  <div class="card">
-    <img src="assets/image 5.png">
-    <div class="card__head">Вострикова Нина</div>
+  <div class="card" v-for="post in this.posts" :key="post">
+    <img :src="post.arr_images[0].image">
+    <div class="card__head">{{ post.id_master.name }} {{ post.id_master.surname }}</div>
   </div>
 </div>
 </template>
@@ -26,6 +10,29 @@
 <script>
   export default {
     name: 'HelloWorld',
+    data() {
+      return {
+        posts: [],
+      }
+    },
+    methods: {
+      getPosts() {
+            axios.get('/api/posts', {
+                headers: {
+                    'Accept': "application/json",
+                    'Content-type': "application/json"
+                }
+            }).then(response => {
+                this.posts = response.data.data
+                console.log(response.data.data);
+            }).catch(error => {
+              console.log(error)
+            })
+        },
+    },
+    mounted() {
+      this.getPosts()
+    },
   }
 </script>
 <style scoped>
