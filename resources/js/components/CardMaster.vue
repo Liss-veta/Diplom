@@ -83,40 +83,6 @@ export default {
           }
           
         }
-        // this.arr_masters[0] = this.arr[0]
-        // this.arr_masters[1] = this.arr[1]
-        // this.arr_masters[2] = this.arr[2]
-        console.log(this.arr_masters);
-
-        // if (this.arr[0].privilege == '1') {
-        //   this.arr_masters[0] = this.arr[0];
-        //   if (this.arr[1].privilege == '2') {
-        //     this.arr_masters[1] = this.arr[1]
-        //     this.arr_masters[2] = this.arr[2]
-        //   } else {
-        //     this.arr_masters[1] = this.arr[2]
-        //     this.arr_masters[2] = this.arr[1]
-        //   }
-        // } else if (this.arr[0].privilege == '2') {
-        //   this.arr_masters[1] = this.arr[0];
-        //   if (this.arr[1].privilege == '1') {
-        //     this.arr_masters[0] = this.arr[1]
-        //     this.arr_masters[2] = this.arr[2]
-        //   } else {
-        //     this.arr_masters[0] = this.arr[2]
-        //     this.arr_masters[2] = this.arr[1]
-        //   }
-        // } else if (this.arr[0].privilege == '3') {
-        //   this.arr_masters[2] = this.arr[0];
-        //   if (this.arr[1].privilege == '1') {
-        //     this.arr_masters[0] = this.arr[1]
-        //     this.arr_masters[1] = this.arr[2]
-        //   } else {
-        //     this.arr_masters[0] = this.arr[2]
-        //     this.arr_masters[1] = this.arr[1]
-        //   }
-        // }
-        console.log(this.arr_masters[0].name);
       })
     }
   }

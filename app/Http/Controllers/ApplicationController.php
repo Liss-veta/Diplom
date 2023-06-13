@@ -20,14 +20,12 @@ class ApplicationController extends Controller
     public function showUser(): JsonResponse
     {
         $user = User::where('id', Auth::user()->id)->first();
-        // dd(ApplicationResourse::collection(Application::where('id_user', $user->id)->get()));
         return response()->json([
             'content' => ApplicationResourse::collection(Application::where('id_user', $user->id)->get())
         ]);
     }
     public function showAdmin()
     {
-        // $master = Master::where('id_user', Auth::user()->id)->first();
         return ApplicationResourse::collection(Application::all());
     }
     public function create(Request $request)

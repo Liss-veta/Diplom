@@ -55,7 +55,6 @@ export default {
                 }
             }).then(response => {
                 this.masters = response.data.content[0]
-                console.log(response.data);
             }).catch(response => { console.log(response.data) })
         }
     }

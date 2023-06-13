@@ -68,7 +68,6 @@ export default {
         getSovets() {
             axios.get('/api/sovets').then(response => {
                 this.sovets = response.data.content
-                console.log(this.sovets);
             })
         }
     }

@@ -10,10 +10,11 @@
                     <h2 class="uk-modal-title">Мои заявки </h2>
                 </div>
                 <div class="uk-modal-body" uk-overflow-auto>
+                    <div :key="index" v-for="(application, index) in this.applications">
                     <p v-if="this.applications.length == 0 && this.role == 'master'">Заявок нет<br>Чтобы клиенты больше вам доверяли, добавляйте
-                        больше записей</p>
+                    больше записей</p>
                     <p v-if="this.applications.length == 0 && this.role == 'user'">Заявок нет</p>
-                    <p style="border: 1px solid black" class="pa-5" v-for="application in applications"
+                    <p style="border: 1px solid black" class="pa-5"
                         :class="initClass(application.status)">
                     <p>Мастер: {{ application.id_master.name }} {{ application.id_master.surname }}</p>
                     <p>Клиент: {{ application.id_user.name }}</p>
@@ -22,7 +23,7 @@
                     <p>Почта клиента: {{ application.id_user.email }}</p>
                     <p>Статус заявки: {{ application.status }}</p>
                     <div v-if="application.status == 'Принято, скоро с вами свяжутся' && this.role == 'user'">
-                        <v-btn variant="tonal" rounded="0" class="bg-red" href="#modal-comm" uk-toggle>Экстренно
+                        <v-btn variant="tonal" rounded="0" class="bg-red" :href="'#modal-comm'+ application.id" uk-toggle>Экстренно
                             завершено</v-btn>
                     </div>
                     <div v-if="application.status == 'Отправлен' && this.role == 'master'">
@@ -39,7 +40,7 @@
                             <v-btn variant="tonal" rounded="0" class="bg-red" href="#modal-comm" uk-toggle>Экстренно
                             завершено</v-btn> 
                     </div>
-                    <div id="modal-comm" uk-modal>
+                    <div :id="'modal-comm'+ application.id" uk-modal>
                             <div class="uk-modal-dialog uk-modal-body">
                                 <h2 class="uk-modal-title">Напишите причину экстренного завершения заявки</h2>
                                 <div class="uk-margin">
@@ -53,6 +54,7 @@
                             </div>
                         </div>
                     </p>
+                </div>
                 </div>
 
             </div>

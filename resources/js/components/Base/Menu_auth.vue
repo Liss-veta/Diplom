@@ -384,6 +384,7 @@ export default {
             if(!this.authUser) {
                 return false
             }
+            console.clear()
             return true
         }
     },
@@ -526,7 +527,6 @@ export default {
                     if (response.response.data.message == 'The email has already been taken.') {
                         NC.spawnNote("error", 'Такой адрес электронной почты уже используется!', '', ["Закрыть"])
                     }
-                    console.log(response.response.data.message)
                 })
             }
             else this.message_error = 'Заполните все поля!'
@@ -578,7 +578,6 @@ export default {
                 }
             }).then(response => {
                 this.izbrann = response.data.content
-                console.log(this.izbrann);
             }).catch(error => { console.log(error) })
         },
         getTags() {
@@ -610,7 +609,6 @@ export default {
                     this.master.min_cena = response.data.content.min_cena
                     this.master.description = response.data.content.description
                 }
-                console.log(response);
             }).catch(response => { console.log(response) })
         },
         update(id) {
@@ -630,7 +628,6 @@ export default {
                 }
             }).then(response => {
                 this.showMaster()
-                console.log(response)
             }).catch(response => {
                 console.log(response)
             })
@@ -647,8 +644,6 @@ export default {
                 }
             }).then(response => {
                 this.showMaster()
-                // this.$route
-                console.log(response)
             }).catch(response => {
                 console.log(response)
             })

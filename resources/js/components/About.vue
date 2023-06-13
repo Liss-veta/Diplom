@@ -58,7 +58,6 @@ export default {
             axios.get('api/about').then(response => {
                 this.image_one = response.data.content[0].image
                 this.text_one = response.data.content[0].description
-                console.log(response.data.content)
             }).catch(response => { console.log(response) })
         },
     }

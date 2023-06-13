@@ -44,7 +44,7 @@
                     <div class="w-100 mt-10 d-flex align-center justify-space-between">
                         <hr class="w-100 ma-0">
                         <DialogZapis
-                            v-if="this.masters.id_user != this.my_id_user && this.my_id_user && this.role == 'user'">
+                            v-if="this.masters.id_user != this.my_id_user && this.masters.admin_status == 'active' && this.my_id_user && this.role == 'user'">
                         </DialogZapis>
                     </div>
                 </v-col>
@@ -117,13 +117,11 @@ export default {
                 }
             }).then(response => {
                 this.tags = response.data.tags;
-                console.log(response.data)
             }).catch(response => { console.log(response) })
         },
         getMasters() {
             axios.get('/api/masters').then(response => {
-                this.masters = response.data.content;
-                console.log(response.data.content)
+                this.masters = response.data.content
             }).catch(response => { console.log(response) })
         },
         getLikeMasters(id) {
@@ -178,8 +176,7 @@ export default {
                 this.master.staj = response.data.content[0].staj
                 this.master.clients_count = response.data.content[0].clients_count
                 this.master.min_cena = response.data.content[0].min_cena
-                this.master.description = response.data.content[0].description
-                console.log(this.master.name);
+                this.master.description = response.data.content[0].description;
             }).catch(response => { console.log(response.data) })
         },
     }

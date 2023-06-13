@@ -1,5 +1,12 @@
 <template>
-    <div class="mt-12" v-for="(masters, index) in arr_masters" :key="masters">
+    <div class="d-flex px-12">
+        <h1
+        class="w-75 text-center text-sm-start text-md-start text-lg-start text-xl-start text-h3 text-sm-h2 text-md-h2 text-lg-h2 text-xl-h2">
+        Наша команда</h1>
+        <v-autocomplete @change="sortHandler()" v-model="this.sortParam" label="Сортировка" bg-color="light-green-lighten-3"
+                    :items="['Все', 'Max цена', 'Min цена', 'А -> Я', 'Я -> А']"></v-autocomplete>
+    </div>
+    <div class="mt-12" v-for="(masters, index) in this.sortHandler" :key="masters">
         <div class="comanda_laptop position-relative" v-if="(index % 2) == 0">
             <div uk-scrollspy="cls: uk-animation-slide-left; repeat: true" class="prof"><img :src="masters.avatar" alt="">
             </div>
@@ -101,16 +108,44 @@ export default {
     data() {
         return {
             arr_masters: [],
+            sortParam: 'Все'
         }
     },
     mounted() {
         this.all()
     },
+    computed: {
+        sortHandler() {
+            // Сортировка по статусу
+            if(this.sortParam === 'Все') return this.arr_masters
+            switch(this.sortParam) {
+                case 'Max цена': return this.arr_masters.sort((d1, d2) => {
+                    if(d1.min_cena < d2.min_cena) return 1;
+                    if(d1.min_cena > d2.min_cena) return -1;
+                    return 0;
+                })
+                case 'Min цена': return this.arr_masters.sort((d1, d2) => {
+                    if(d1.min_cena > d2.min_cena) return 1;
+                    if(d1.min_cena < d2.min_cena) return -1;
+                    return 0;
+                })
+                case 'А -> Я': return this.arr_masters.sort((d1, d2) => {
+                    if(d1.name > d2.name) return 1;
+                    if(d1.name < d2.name) return -1;
+                    return 0;
+                })
+                case 'Я -> А': return this.arr_masters.sort((d1, d2) => {
+                    if(d1.name < d2.name) return 1;
+                    if(d1.name > d2.name) return -1;
+                    return 0;
+                })
+            }
+            }
+    },
     methods: {
         all() {
             axios.get('api/masters').then(response => {
                 this.arr_masters = response.data.content;
-                console.log(response.data)
             }).catch(response => { console.log(response) })
 
         }
@@ -121,7 +156,7 @@ export default {
 .comanda_laptop {
     padding-left: 53px;
     position: relative;
-    margin-bottom: 10vw;
+    /* margin-bottom: 10vw; */
     margin-top: 48px;
 }
 
@@ -147,7 +182,7 @@ export default {
     margin: 0;
     position: relative;
     z-index: 1;
-    margin-left: 71.5vw;
+    margin-left: 72.5vw;
 }
 
 .prof img,
@@ -226,7 +261,7 @@ export default {
     float: none;
     width: auto;
     font-size: 20px;
-    margin-left: -10vh;
+    margin-left: -8vh;
 }
 
 .bottomfiel,

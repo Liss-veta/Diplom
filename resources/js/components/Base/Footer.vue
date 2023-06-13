@@ -1,7 +1,7 @@
 <template>
   <v-footer class="bg-light-green-lighten-1 d-flex flex-column mt-10">
     <div class="d-flex mt-2 text-white align-center w-100 justify-space-between align-center">
-      <img src="assets/паттерн 1.png" style="height: 70px;" cover alt=""/>
+      <img src="/assets/паттерн 1.png" style="height: 70px;" cover alt=""/>
       <v-row justify="center" no-gutters>
       <v-btn variant="text" class="mx-2" rounded="xl">
         <router-link style="text-decoration: none;" class="mx-2 text-white" rounded="xl" to="/">Главная</router-link>

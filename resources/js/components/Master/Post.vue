@@ -206,8 +206,6 @@ export default {
                         }
                     }
                 }
-
-                console.log(response.data.data);
             }).catch(response => { console.log(response) })
         },
         getPosts(id) {

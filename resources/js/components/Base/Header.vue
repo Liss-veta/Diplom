@@ -133,7 +133,6 @@ export default {
     getMasters() {
       axios.get('/api/masters').then(response => {
         this.masters = response.data.content;
-        console.log(this.masters)
       }).catch(response => { console.log(response) })
     }
   },
